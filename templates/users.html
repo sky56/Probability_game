@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Probability Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="../static/users.css" rel="stylesheet">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <h1 class="text-center">Probability Game</h1>
+            <hr width="10%"><br><br>
+            <div class="row text-center">
+                <div class="col-sm-6 col-sm-offset-3 col-md-6 col-xs-12 col-lg-6">
+                    <form id="users_form" action="{{url_for('users')}}" method="POST">
+                        <div class="form-group">
+                            <label for="user_id" class="user-id">Enter your User ID:</label><br><br>
+                            <input type="number" class="form-control" id="user_id" min="0" name="user_id" placeholder="Enter UserID" required>
+                        </div>
+                        <button id="user-button" type="submit" class="btn btn-danger btn-xl">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

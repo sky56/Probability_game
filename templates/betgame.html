@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Probability Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link href="../static/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <h1 class="text-center">Probability Game</h1>
+            <hr width="10%"><br><br>
+            <div class="row">
+                <div class="col-sm-5 input-values">
+                    <form id="betting_form" action="{{url_for('bet')}}" method="POST">
+                        <div class="form-group">
+                            <label for="user_id" class="form-heading">User ID:</label><br>
+                            <input type="text"  class="form-control" id="user_id" name="user_id" value="{{user_id}}" readonly><br><br>
+                            <label for="bet_amount" class="form-heading">Amount:</label><br>
+                            <input type="number"  class="form-control" placeholder="Enter Betting Amount" id="bet_amount" name="bet_amount" value="{{bet_amount}}" max="1000" min="1" required><br>
+                        </div>
+                        <div class="text-center">
+                            <button id="bet-button" type="submit" class="btn btn-danger btn-xl">Bet</button><br><br>
+                            <p id="success">{{success}}</p>
+                            <p id="failure">{{failure}}</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-5 col-sm-offset-1">
+                    <label for="remaining_time" class="form-heading">Remaining time:</label><br>
+                    <input type="text" class="form-control reading" id="remaining_time" readonly><br><br>
+                    <label for="current_amount" class="form-heading">Current amount:</label><br>
+                    <input type="text"  class="form-control reading" id="current_amount" name="current_amount" value="{{current_amount}}" readonly><br><br>
+                    <label for="average_bet_size" class="form-heading">Average Bet Size:</label><br>
+                    <input type="text"  class="form-control reading" id="average_bet_size" name="average_bet_size" value="{{average_bet_size}}" readonly><br><br>
+                    <label for="win_percent" class="form-heading">Win Percent:</label><br>
+                    <input type="text"  class="form-control reading" id="win_percent" name="win_percent" value="{{win_percent}}" readonly><br><br>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
