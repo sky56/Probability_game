@@ -4,32 +4,32 @@ from flask_sqlalchemy import SQLAlchemy
 from random import randint
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:123456@localhost/betgame'
-db = SQLAlchemy(app)
+#app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:123456@localhost/betgame'
+#db = SQLAlchemy(app)
 
 #The Database Model with table name and column name
-class Data(db.Model):
-    __tablename__ = "bettrans"
-    id = db.Column(db.Integer,primary_key=True)
-    user_id_ = db.Column(db.Integer)
-    bet_user_id_ = db.Column(db.Integer)
-    bet_amount_ = db.Column(db.Integer)
-    current_amount_ = db.Column(db.Integer)
-    bet_win_ = db.Column(db.Integer)
+#class Data(db.Model):
+#    __tablename__ = "bettrans"
+#    id = db.Column(db.Integer,primary_key=True)
+#    user_id_ = db.Column(db.Integer)
+#    bet_user_id_ = db.Column(db.Integer)
+#    bet_amount_ = db.Column(db.Integer)
+#    current_amount_ = db.Column(db.Integer)
+#    bet_win_ = db.Column(db.Integer)
 
-def __init__(self,user_id_,user_bet_id_,bet_amount_,current_amount_,bet_win_):
-    self.user_id_ = user_id_
-    self.bet_user_id_ = bet_user_id_
-    self.bet_amount_ = bet_amount_
-    self.current_amount_ = current_amount_
-    self.bet_win_ = bet_win_
+#def __init__(self,user_id_,user_bet_id_,bet_amount_,current_amount_,bet_win_):
+#    self.user_id_ = user_id_
+#    self.bet_user_id_ = bet_user_id_
+#    self.bet_amount_ = bet_amount_
+#    self.current_amount_ = current_amount_
+#    self.bet_win_ = bet_win_
 
 
 @app.route("/",methods=['GET','POST'])
 def users():
     if request.method=='POST':
-        user_id = request.form["user_id"]
-        conn = psycopg2.connect("dbname='betgame' user='postgres' password='123456' host='localhost' port='5432'")
+        user_id = request.form["user_id"].lstrip("0")
+        conn = psycopg2.connect("dbname='dcgpnv24p65rk7' user='llqbzlgxovchpg' password='c7e106cf113b9715b479cfa61f4113b67f5ad3ce101f66916403a67bf5f7fd7f' host='ec2-54-235-219-113.compute-1.amazonaws.com' port='5432'")
         cur = conn.cursor()
         #Checks in database whether user is present
         cur.execute("select count(*) from bettrans where user_id_=%s",(user_id,))
@@ -41,6 +41,7 @@ def users():
             #Inserts the user ID if not present
             cur.execute("insert into bettrans(user_id_,bet_user_id_,current_amount_) values (%s,%s,%s)",(user_id,0,1000))
             conn.commit()
+            current_amount = 1000
         else:
             #Selects last transaction of the user and fetches details
             cur.execute("select * from bettrans where user_id_=%s AND bet_user_id_=( select max(bet_user_id_) from bettrans where user_id_=%s)",(user_id,user_id))
@@ -63,7 +64,7 @@ def users():
                 win_bet = win_bet_rows[0][0]
                 win_percent = win_bet*100/(count[0][0]-1)
                 win_percent = round(win_percent,2)
-
+                win_percent = str(win_percent)+'%'
             current_amount = rows[0][4]
         conn.close()
         #Renders betgame.html with all the field values
@@ -75,12 +76,13 @@ def bet():
     if request.method=='POST':
         bet_amount = request.form["bet_amount"]
         user_id = request.form["user_id"]
+        user_id = user_id.lstrip("0")
         average_bet_size = ""
         win_percent = ""
         current_amount = ""
         success = ""
         failure = ""
-        conn = psycopg2.connect("dbname='betgame' user='postgres' password='123456' host='localhost' port='5432'")
+        conn = psycopg2.connect("dbname='dcgpnv24p65rk7' user='llqbzlgxovchpg' password='c7e106cf113b9715b479cfa61f4113b67f5ad3ce101f66916403a67bf5f7fd7f' host='ec2-54-235-219-113.compute-1.amazonaws.com' port='5432'")
         cur = conn.cursor()
         #Checks the last transaction of the user
         cur.execute("select * from bettrans where user_id_=%s AND bet_user_id_=( select max(bet_user_id_) from bettrans where user_id_=%s)",(user_id,user_id))
@@ -132,4 +134,4 @@ def bet():
     return render_template("users.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
