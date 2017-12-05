@@ -5,11 +5,13 @@
     <title>Probability Game</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
       var user_id = {{ user_id|tojson }};
+      var current_amount = {{ current_amount|tojson }};
     </script>
     <script type="text/javascript" src="../static/script.js"></script>
     <link href="../static/style.css" rel="stylesheet">
@@ -22,12 +24,12 @@
             <hr width="10%"><br><br>
             <div class="row">
                 <div class="col-sm-5 input-values">
-                    <form id="betting_form" action="{{url_for('bet')}}" method="POST">
+                    <form id="betting_form" action="{{url_for('bet')}}" onsubmit="control_button()" method="POST">
                         <div class="form-group">
                             <label for="user_id" class="form-heading">User ID:</label><br>
                             <input type="text"  class="form-control" id="user_id" name="user_id" value="{{user_id}}" readonly><br><br>
                             <label for="bet_amount" class="form-heading">Amount:</label><br>
-                            <input type="number"  class="form-control" placeholder="Enter Betting Amount" id="bet_amount" name="bet_amount" value="{{bet_amount}}" max="1000" min="1" required><br>
+                            <input type="number"  class="form-control" placeholder="Enter Betting Amount" id="bet_amount" name="bet_amount" max="{{current_amount}}" min="1" required><br>
                         </div>
                         <div class="text-center">
                             <button id="bet-button" type="submit" class="btn btn-danger btn-xl">Bet</button><br><br>
