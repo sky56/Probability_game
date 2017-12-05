@@ -24,6 +24,12 @@ app = Flask(__name__)
 #    self.current_amount_ = current_amount_
 #    self.bet_win_ = bet_win_
 
+def coin_flip():
+    toss = randint(1,100)
+    if toss <= 60:
+        return 1
+    else:
+        return -1
 
 @app.route("/",methods=['GET','POST'])
 def users():
@@ -99,14 +105,12 @@ def bet():
         win_bet = win_bet_rows[0][0]
 
         #Since biasness is 60%, so below 60 is a success
-        toss = randint(1,100)
-        if toss <= 60:
-            isWin = 1
+        isWin = coin_flip()
+        if isWin == 1:
             success = "Congrats! You won"
             failure = ""
             win_value = 1
         else:
-            isWin = -1
             failure = "Sorry, you lost."
             success = ""
             win_value = 0
@@ -130,7 +134,7 @@ def bet():
         cur.execute("insert into bettrans(user_id_,bet_user_id_,bet_amount_,current_amount_,bet_win_) values (%s,%s,%s,%s,%s)",(user_id,(bet_id+1),bet_amount,current_amount,win_value))
         conn.commit()
         conn.close()
-        return render_template("betgame.html",user_id=user_id,bet_amount=bet_amount,success=success,failure=failure,current_amount=current_amount,average_bet_size=average_bet_size,win_percent=win_percent)
+        return render_template("betgame.html",user_id=user_id,success=success,failure=failure,current_amount=current_amount,average_bet_size=average_bet_size,win_percent=win_percent)
     return render_template("users.html")
 
 if __name__ == "__main__":
