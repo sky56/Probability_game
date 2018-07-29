@@ -35,7 +35,7 @@ def coin_flip():
 def users():
     if request.method=='POST':
         user_id = request.form["user_id"].lstrip("0")
-        conn = psycopg2.connect("dbname='dcgpnv24p65rk7' user='llqbzlgxovchpg' password='c7e106cf113b9715b479cfa61f4113b67f5ad3ce101f66916403a67bf5f7fd7f' host='ec2-54-235-219-113.compute-1.amazonaws.com' port='5432'")
+        conn = psycopg2.connect("dbname='dbname' user='user' password='password' host='host' port='port'")
         cur = conn.cursor()
         #Checks in database whether user is present
         cur.execute("select count(*) from bettrans where user_id_=%s",(user_id,))
@@ -88,7 +88,7 @@ def bet():
         current_amount = ""
         success = ""
         failure = ""
-        conn = psycopg2.connect("dbname='dcgpnv24p65rk7' user='llqbzlgxovchpg' password='c7e106cf113b9715b479cfa61f4113b67f5ad3ce101f66916403a67bf5f7fd7f' host='ec2-54-235-219-113.compute-1.amazonaws.com' port='5432'")
+        conn = psycopg2.connect("dbname='dbname' user='user' password='password' host='host' port='port'")
         cur = conn.cursor()
         #Checks the last transaction of the user
         cur.execute("select * from bettrans where user_id_=%s AND bet_user_id_=( select max(bet_user_id_) from bettrans where user_id_=%s)",(user_id,user_id))
